@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certification Learning Platform</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-graduation-cap"></i>
+                <span>HuGoLearn</span>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#certifications" class="nav-link">Certifications</a>
+                <a href="#flashcards" class="nav-link">Flashcards</a>
+                <a href="#practice" class="nav-link">Practice Tests</a>
+                <a href="#progress" class="nav-link">Progress</a>
+            </div>
+            <div class="nav-toggle" id="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Master Your <span class="gradient-text">Certification</span> Journey</h1>
+                <p class="hero-subtitle">Interactive learning platform with flashcards, mock tests, and gamified experiences to ace your tech certifications</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="showCertifications()">
+                        <i class="fas fa-rocket"></i> Start Learning
+                    </button>
+                    <button class="btn btn-secondary" onclick="showProgress()">
+                        <i class="fas fa-chart-line"></i> View Progress
+                    </button>
+                </div>
+            </div>
+            <div class="hero-animation">
+                <div class="floating-cards">
+                    <div class="card-float card-aws">AWS</div>
+                    <div class="card-float card-databricks">Databricks</div>
+                    <div class="card-float card-azure">Azure</div>
+                    <div class="card-float card-scrum">Scrum</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <div class="stat-number" data-count="13">0</div>
+                    <div class="stat-label">Certifications</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-cards-blank"></i>
+                    </div>
+                    <div class="stat-number" data-count="500">0</div>
+                    <div class="stat-label">Flashcards</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <div class="stat-number" data-count="1200">0</div>
+                    <div class="stat-label">Practice Questions</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-number" data-count="10000">0</div>
+                    <div class="stat-label">Learners</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications" class="certifications-section">
+        <div class="container">
+            <h2 class="section-title">Choose Your Certification Path</h2>
+            <div class="certification-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="aws">AWS</button>
+                <button class="filter-btn" data-filter="databricks">Databricks</button>
+                <button class="filter-btn" data-filter="azure">Azure</button>
+                <button class="filter-btn" data-filter="gcp">GCP</button>
+                <button class="filter-btn" data-filter="agile">Agile</button>
+            </div>
+            <div class="certifications-grid" id="certifications-grid">
+                <!-- Certification cards will be dynamically loaded -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Flashcards Section -->
+    <section id="flashcards" class="flashcards-section">
+        <div class="container">
+            <h2 class="section-title">Interactive Flashcards</h2>
+            <div class="flashcard-controls">
+                <select id="flashcard-topic" class="control-select">
+                    <option value="">Select Topic</option>
+                </select>
+                <button class="btn btn-primary" onclick="startFlashcards()">
+                    <i class="fas fa-play"></i> Start Session
+                </button>
+            </div>
+            <div class="flashcard-container" id="flashcard-container">
+                <div class="flashcard" id="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="flashcard-content">
+                                <h3 id="flashcard-question">Select a topic to start learning</h3>
+                            </div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="flashcard-content">
+                                <p id="flashcard-answer">Click "Start Session" to begin</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flashcard-controls-bottom">
+                    <button class="btn btn-secondary" onclick="prevCard()" disabled id="prev-btn">
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    <button class="btn btn-info" onclick="flipCard()" disabled id="flip-btn">
+                        <i class="fas fa-sync"></i> Flip
+                    </button>
+                    <button class="btn btn-secondary" onclick="nextCard()" disabled id="next-btn">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="flashcard-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="flashcard-progress"></div>
+                    </div>
+                    <span class="progress-text" id="progress-text">0 / 0</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Practice Tests Section -->
+    <section id="practice" class="practice-section">
+        <div class="container">
+            <h2 class="section-title">Practice Tests & Mock Exams</h2>
+            <div class="practice-grid">
+                <div class="practice-mode">
+                    <div class="practice-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Quick Quiz</h3>
+                    <p>5-10 questions on specific topics</p>
+                    <button class="btn btn-outline" onclick="startQuickQuiz()">Start Quiz</button>
+                </div>
+                <div class="practice-mode">
+                    <div class="practice-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Timed Practice</h3>
+                    <p>Practice with exam-like time constraints</p>
+                    <button class="btn btn-outline" onclick="startTimedPractice()">Start Practice</button>
+                </div>
+                <div class="practice-mode">
+                    <div class="practice-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3>Mock Exam</h3>
+                    <p>Full-length simulation of actual exam</p>
+                    <button class="btn btn-outline" onclick="startMockExam()">Start Exam</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Progress Section -->
+    <section id="progress" class="progress-section">
+        <div class="container">
+            <h2 class="section-title">Your Learning Progress</h2>
+            <div class="progress-dashboard">
+                <div class="progress-chart">
+                    <canvas id="progressChart"></canvas>
+                </div>
+                <div class="progress-details">
+                    <div class="achievement-badges">
+                        <h3>Recent Achievements</h3>
+                        <div class="badges-grid" id="badges-grid">
+                            <!-- Badges will be loaded dynamically -->
+                        </div>
+                    </div>
+                    <div class="study-streak">
+                        <h3>Study Streak</h3>
+                        <div class="streak-count">
+                            <span class="streak-number" id="streak-days">7</span>
+                            <span class="streak-label">days</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz Modal -->
+    <div id="quiz-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="quiz-title">Practice Quiz</h2>
+                <span class="close" onclick="closeQuizModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="quiz-container">
+                    <div class="quiz-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="quiz-progress"></div>
+                        </div>
+                        <span id="quiz-question-count">Question 1 of 10</span>
+                        <span id="quiz-timer">10:00</span>
+                    </div>
+                    <div class="question-container">
+                        <h3 id="quiz-question">Loading question...</h3>
+                        <div class="options-container" id="quiz-options">
+                            <!-- Options will be loaded dynamically -->
+                        </div>
+                    </div>
+                    <div class="quiz-controls">
+                        <button class="btn btn-secondary" onclick="prevQuestion()" disabled id="quiz-prev">Previous</button>
+                        <button class="btn btn-primary" onclick="nextQuestion()" disabled id="quiz-next">Next</button>
+                        <button class="btn btn-success" onclick="submitQuiz()" style="display: none;" id="quiz-submit">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Study Plan Modal -->
+    <div id="study-plan-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create Study Plan</h2>
+                <span class="close" onclick="closeStudyPlanModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="study-plan-form">
+                    <div class="form-group">
+                        <label>Target Certification</label>
+                        <select id="study-cert-select" class="form-control">
+                            <option value="">Select certification...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Study Duration (weeks)</label>
+                        <select id="study-duration" class="form-control">
+                            <option value="4">4 weeks (Intensive)</option>
+                            <option value="8" selected>8 weeks (Regular)</option>
+                            <option value="12">12 weeks (Extended)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Daily Study Time (hours)</label>
+                        <select id="study-hours" class="form-control">
+                            <option value="1">1 hour</option>
+                            <option value="2" selected>2 hours</option>
+                            <option value="3">3 hours</option>
+                            <option value="4">4+ hours</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" onclick="generateStudyPlan()">Generate Plan</button>
+                </div>
+                <div class="study-plan-result" id="study-plan-result" style="display: none;">
+                    <!-- Generated study plan will appear here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>HuGoLearn</h3>
+                    <p>Master your certification journey with interactive learning experiences.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#certifications">All Certifications</a></li>
+                        <li><a href="#flashcards">Flashcards</a></li>
+                        <li><a href="#practice">Practice Tests</a></li>
+                        <li><a href="#progress">Progress Tracking</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 HuGoLearn. Build for hard learners worldwide.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/markdown-converter.js"></script>
+    <script src="assets/js/content-parser.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/flashcards.js"></script>
+    <script src="assets/js/quiz.js"></script>
+    <script src="assets/js/progress.js"></script>
+</body>
+</html>
