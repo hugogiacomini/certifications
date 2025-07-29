@@ -210,9 +210,13 @@ class CertificationLearningPlatform {
                         break;
                     case '2':
                         e.preventDefault();
-                        this.navigateToSection('flashcards');
+                        this.navigateToSection('study');
                         break;
                     case '3':
+                        e.preventDefault();
+                        this.navigateToSection('flashcards');
+                        break;
+                    case '4':
                         e.preventDefault();
                         this.navigateToSection('practice');
                         break;
@@ -316,7 +320,10 @@ class CertificationLearningPlatform {
                     `).join('')}
                 </div>
                 <div class="cert-actions">
-                    <button class="btn btn-primary" onclick="app.startFlashcardSession('${cert.id}')">
+                    <button class="btn btn-primary" onclick="app.startStudy('${cert.id}')">
+                        <i class="fas fa-book-reader"></i> Study
+                    </button>
+                    <button class="btn btn-secondary" onclick="app.startFlashcardSession('${cert.id}')">
                         <i class="fas fa-cards-blank"></i> Flashcards
                     </button>
                     <button class="btn btn-outline" onclick="app.startQuickQuiz('${cert.id}')">
@@ -391,6 +398,11 @@ class CertificationLearningPlatform {
             section.scrollIntoView({ behavior: 'smooth' });
         }
         
+        // Initialize study materials if navigating to study section
+        if (sectionId === 'study') {
+            this.initializeStudySection();
+        }
+        
         // Update navigation
         document.querySelectorAll('.nav-link').forEach(link => {
             link.classList.remove('active');
@@ -398,6 +410,18 @@ class CertificationLearningPlatform {
                 link.classList.add('active');
             }
         });
+    }
+
+    async initializeStudySection() {
+        try {
+            if (!window.studyManager) {
+                window.studyManager = new StudyMaterialsManager();
+            }
+            await window.studyManager.init();
+        } catch (error) {
+            console.error('Error initializing study section:', error);
+            this.showNotification('Error loading study materials', 'error');
+        }
     }
 
     updateStats() {
@@ -451,6 +475,38 @@ class CertificationLearningPlatform {
         document.querySelectorAll('.certification-card, .stat-item, .practice-mode').forEach(el => {
             observer.observe(el);
         });
+    }
+
+    async startStudy(certId) {
+        try {
+            // Navigate to study section
+            this.navigateToSection('study');
+            
+            // Initialize study materials if not already done
+            await this.initializeStudySection();
+            
+            // Wait a bit for the section to load, then select the certification
+            setTimeout(() => {
+                if (window.studyManager) {
+                    // Find the certification node and select it
+                    const certNode = window.studyManager.studyTree.get(certId);
+                    if (certNode) {
+                        // Find first available topic
+                        const firstTopic = certNode.children.values().next().value;
+                        if (firstTopic) {
+                            window.studyManager.selectNode(firstTopic);
+                        }
+                    }
+                }
+            }, 500);
+            
+            // Award XP for starting study
+            this.awardXP(10, 'study_start');
+            
+        } catch (error) {
+            console.error('Error starting study session:', error);
+            this.showNotification('Failed to start study session', 'error');
+        }
     }
 
     async startFlashcardSession(certId) {

@@ -19,6 +19,7 @@
             <div class="nav-menu" id="nav-menu">
                 <a href="#home" class="nav-link active">Home</a>
                 <a href="#certifications" class="nav-link">Certifications</a>
+                <a href="#study" class="nav-link">Study Materials</a>
                 <a href="#flashcards" class="nav-link">Flashcards</a>
                 <a href="#practice" class="nav-link">Practice Tests</a>
                 <a href="#progress" class="nav-link">Progress</a>
@@ -107,6 +108,111 @@
             </div>
             <div class="certifications-grid" id="certifications-grid">
                 <!-- Certification cards will be dynamically loaded -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Study Materials Section -->
+    <section id="study" class="study-section">
+        <div class="container">
+            <div class="study-header">
+                <h2 class="section-title">Study Materials</h2>
+                <div class="study-controls">
+                    <div class="study-search">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="study-search" placeholder="Search study materials..." />
+                    </div>
+                    <div class="study-filters">
+                        <select id="study-cert-filter" class="control-select">
+                            <option value="">All Certifications</option>
+                        </select>
+                        <select id="study-topic-filter" class="control-select">
+                            <option value="">All Topics</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="study-layout">
+                <!-- Sidebar Navigation -->
+                <div class="study-sidebar">
+                    <div class="sidebar-header">
+                        <h3>Study Topics</h3>
+                        <button class="btn btn-sm btn-outline" onclick="toggleSidebar()">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                    </div>
+                    <div class="study-tree" id="study-tree">
+                        <!-- Dynamic content will be loaded here -->
+                    </div>
+                    <div class="bookmarks-section">
+                        <h4>Bookmarks</h4>
+                        <div class="bookmarks-list" id="bookmarks-list">
+                            <div class="no-bookmarks">
+                                <i class="fas fa-bookmark"></i>
+                                <p>No bookmarks yet</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content Area -->
+                <div class="study-content">
+                    <div class="content-header">
+                        <div class="breadcrumb" id="study-breadcrumb">
+                            <span class="breadcrumb-item">Home</span>
+                        </div>
+                        <div class="content-actions">
+                            <button class="btn btn-sm btn-secondary" onclick="toggleReadingMode()" id="reading-mode-btn">
+                                <i class="fas fa-book-open"></i> Reading Mode
+                            </button>
+                            <button class="btn btn-sm btn-secondary" onclick="toggleDarkMode()" id="dark-mode-btn">
+                                <i class="fas fa-moon"></i> Dark Mode
+                            </button>
+                            <button class="btn btn-sm btn-secondary" onclick="printContent()">
+                                <i class="fas fa-print"></i> Print
+                            </button>
+                            <button class="btn btn-sm btn-primary" onclick="bookmarkContent()" id="bookmark-btn">
+                                <i class="fas fa-bookmark"></i> Bookmark
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="content-body" id="study-content-body">
+                        <div class="content-welcome">
+                            <div class="welcome-icon">
+                                <i class="fas fa-book-reader"></i>
+                            </div>
+                            <h3>Welcome to Study Materials</h3>
+                            <p>Select a certification and topic from the sidebar to begin studying.</p>
+                            <div class="quick-start-tips">
+                                <h4>Quick Tips:</h4>
+                                <ul>
+                                    <li><i class="fas fa-lightbulb"></i> Use the search to find specific topics</li>
+                                    <li><i class="fas fa-bookmark"></i> Bookmark important sections for later review</li>
+                                    <li><i class="fas fa-moon"></i> Toggle dark mode for comfortable reading</li>
+                                    <li><i class="fas fa-book-open"></i> Enable reading mode for distraction-free study</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Content Navigation -->
+                    <div class="content-navigation">
+                        <button class="btn btn-secondary" onclick="previousContent()" id="prev-content-btn" disabled>
+                            <i class="fas fa-chevron-left"></i> Previous
+                        </button>
+                        <div class="content-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="content-progress"></div>
+                            </div>
+                            <span class="progress-text" id="content-progress-text">0% Complete</span>
+                        </div>
+                        <button class="btn btn-secondary" onclick="nextContent()" id="next-content-btn" disabled>
+                            Next <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -304,6 +410,7 @@
                     <h4>Quick Links</h4>
                     <ul>
                         <li><a href="#certifications">All Certifications</a></li>
+                        <li><a href="#study">Study Materials</a></li>
                         <li><a href="#flashcards">Flashcards</a></li>
                         <li><a href="#practice">Practice Tests</a></li>
                         <li><a href="#progress">Progress Tracking</a></li>
@@ -329,6 +436,7 @@
     <script src="assets/js/config.js"></script>
     <script src="assets/js/markdown-converter.js"></script>
     <script src="assets/js/content-parser.js"></script>
+    <script src="assets/js/study-materials.js"></script>
     <script src="assets/js/app.js"></script>
     <script src="assets/js/flashcards.js"></script>
     <script src="assets/js/quiz.js"></script>
