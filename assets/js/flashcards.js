@@ -116,18 +116,47 @@ class FlashcardManager {
                     </div>
                     <div class="session-controls">
                         <div class="study-mode-selector">
-                            <select id="study-mode" value="${this.studyMode}">
-                                <option value="sequential">Sequential</option>
-                                <option value="random">Random</option>
-                                <option value="difficult">Difficult First</option>
-                            </select>
+                            <div class="modern-dropdown" id="study-mode-dropdown">
+                                <div class="dropdown-trigger" id="study-mode-trigger">
+                                    <i class="fas fa-sort-amount-down"></i>
+                                    <span id="study-mode-text">Sequential</span>
+                                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                                </div>
+                                <div class="dropdown-menu" id="study-mode-menu">
+                                    <div class="dropdown-item" data-value="sequential">
+                                        <i class="fas fa-list-ol"></i>
+                                        <div class="item-content">
+                                            <span class="item-title">Sequential</span>
+                                            <span class="item-description">Study cards in order</span>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-item" data-value="random">
+                                        <i class="fas fa-random"></i>
+                                        <div class="item-content">
+                                            <span class="item-title">Random</span>
+                                            <span class="item-description">Shuffle cards randomly</span>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-item" data-value="difficult">
+                                        <i class="fas fa-brain"></i>
+                                        <div class="item-content">
+                                            <span class="item-title">Difficult First</span>
+                                            <span class="item-description">Start with harder cards</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <button class="control-btn" id="auto-play-btn" title="Auto-play">
-                            <i class="fas fa-play"></i>
-                        </button>
-                        <button class="control-btn" id="close-session-btn" title="End Session">
-                            <i class="fas fa-times"></i>
-                        </button>
+                        <div class="control-buttons">
+                            <button class="modern-control-btn" id="auto-play-btn" title="Auto-play">
+                                <i class="fas fa-play"></i>
+                                <span>Auto-play</span>
+                            </button>
+                            <button class="modern-control-btn danger" id="close-session-btn" title="End Session">
+                                <i class="fas fa-times"></i>
+                                <span>End Session</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 
@@ -219,10 +248,53 @@ class FlashcardManager {
         if (correctBtn) correctBtn.addEventListener('click', () => this.markAnswer(true));
         if (incorrectBtn) incorrectBtn.addEventListener('click', () => this.markAnswer(false));
 
-        // Study mode selector
-        const studyModeSelect = document.getElementById('study-mode');
-        if (studyModeSelect) {
-            studyModeSelect.addEventListener('change', (e) => this.changeStudyMode(e.target.value));
+        // Study mode selector (modern dropdown)
+        const studyModeDropdown = document.getElementById('study-mode-dropdown');
+        const studyModeTrigger = document.getElementById('study-mode-trigger');
+        const studyModeMenu = document.getElementById('study-mode-menu');
+        
+        if (studyModeDropdown && studyModeTrigger && studyModeMenu) {
+            // Toggle dropdown
+            studyModeTrigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                studyModeDropdown.classList.toggle('open');
+            });
+
+            // Handle dropdown items
+            studyModeMenu.addEventListener('click', (e) => {
+                const item = e.target.closest('.dropdown-item');
+                if (item) {
+                    const value = item.dataset.value;
+                    const title = item.querySelector('.item-title').textContent;
+                    
+                    // Update dropdown display
+                    document.getElementById('study-mode-text').textContent = title;
+                    studyModeDropdown.classList.remove('open');
+                    
+                    // Update all items' active state
+                    studyModeMenu.querySelectorAll('.dropdown-item').forEach(el => {
+                        el.classList.remove('active');
+                    });
+                    item.classList.add('active');
+                    
+                    // Change study mode
+                    this.changeStudyMode(value);
+                }
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!studyModeDropdown.contains(e.target)) {
+                    studyModeDropdown.classList.remove('open');
+                }
+            });
+
+            // Set initial active item
+            const initialItem = studyModeMenu.querySelector(`[data-value="${this.studyMode}"]`);
+            if (initialItem) {
+                initialItem.classList.add('active');
+                document.getElementById('study-mode-text').textContent = initialItem.querySelector('.item-title').textContent;
+            }
         }
 
         // Auto-play button
@@ -369,8 +441,8 @@ class FlashcardManager {
             clearInterval(this.autoPlayInterval);
             this.autoPlayInterval = null;
             if (autoPlayBtn) {
-                autoPlayBtn.innerHTML = '<i class="fas fa-play"></i>';
-                autoPlayBtn.classList.remove('active');
+                autoPlayBtn.innerHTML = '<i class="fas fa-play"></i><span>Auto-play</span>';
+                autoPlayBtn.classList.remove('playing');
             }
         } else {
             this.autoPlayInterval = setInterval(() => {
@@ -382,8 +454,8 @@ class FlashcardManager {
             }, this.autoPlaySpeed);
             
             if (autoPlayBtn) {
-                autoPlayBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                autoPlayBtn.classList.add('active');
+                autoPlayBtn.innerHTML = '<i class="fas fa-pause"></i><span>Pause</span>';
+                autoPlayBtn.classList.add('playing');
             }
         }
     }
