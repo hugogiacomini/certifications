@@ -110,7 +110,7 @@ class CertificationLearningPlatform {
         });
 
         // Global functions for buttons
-        window.startFlashcards = () => this.startFlashcardSession();
+        window.startFlashcards = () => this.startFlashcardsFromSelector();
         window.startQuickQuiz = () => this.startQuickQuiz();
         window.startTimedPractice = () => this.startTimedPractice();
         window.startMockExam = () => this.startMockExam();
@@ -291,7 +291,7 @@ class CertificationLearningPlatform {
         if (!grid) return;
 
         grid.innerHTML = this.certifications.map(cert => `
-            <div class="certification-card" data-provider="${cert.provider.toLowerCase().replace(/\s+/g, '-')}">
+            <div class="certification-card" data-provider="${this.getProviderFilter(cert.provider)}" data-cert-id="${cert.id}">
                 <div class="cert-header">
                     <div class="cert-icon">
                         <i class="${this.getCertIcon(cert.provider)}"></i>
@@ -325,6 +325,9 @@ class CertificationLearningPlatform {
                 </div>
             </div>
         `).join('');
+
+        // Populate flashcard topic selector
+        this.populateTopicSelector();
     }
 
     getCertIcon(provider) {
@@ -339,12 +342,40 @@ class CertificationLearningPlatform {
         return iconMap[provider] || 'fas fa-certificate';
     }
 
+    getProviderFilter(provider) {
+        const filterMap = {
+            'Amazon Web Services': 'aws',
+            'Databricks': 'databricks',
+            'Microsoft Azure': 'azure',
+            'Google Cloud': 'gcp',
+            'Scrum.org': 'agile',
+            'Astronomer': 'agile'
+        };
+        return filterMap[provider] || provider.toLowerCase().replace(/\s+/g, '-');
+    }
+
+    populateTopicSelector() {
+        const topicSelect = document.getElementById('flashcard-topic');
+        if (!topicSelect) return;
+
+        // Clear existing options (except the first one)
+        topicSelect.innerHTML = '<option value="">Select Topic</option>';
+
+        // Add certification options
+        this.certifications.forEach(cert => {
+            const option = document.createElement('option');
+            option.value = cert.id;
+            option.textContent = cert.title;
+            topicSelect.appendChild(option);
+        });
+    }
+
     filterCertifications(filter) {
         const cards = document.querySelectorAll('.certification-card');
         
         cards.forEach(card => {
             const provider = card.getAttribute('data-provider');
-            const shouldShow = filter === 'all' || provider.includes(filter);
+            const shouldShow = filter === 'all' || provider === filter;
             
             card.style.display = shouldShow ? 'block' : 'none';
             
@@ -441,6 +472,16 @@ class CertificationLearningPlatform {
             console.error('Error starting flashcard session:', error);
             this.showNotification('Failed to start flashcard session', 'error');
         }
+    }
+
+    startFlashcardsFromSelector() {
+        const topicSelect = document.getElementById('flashcard-topic');
+        if (!topicSelect || !topicSelect.value) {
+            this.showNotification('Please select a topic first', 'warning');
+            return;
+        }
+        
+        this.startFlashcardSession(topicSelect.value);
     }
 
     startQuickQuiz(certId) {

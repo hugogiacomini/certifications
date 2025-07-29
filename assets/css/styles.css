@@ -2481,3 +2481,85 @@ section {
     0% { transform: translate(-50%, -50%) rotate(0deg); }
     100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
+
+/* Notification Styles */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    padding: 16px 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.3s ease;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    max-width: 300px;
+}
+
+.notification.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.notification.success {
+    border-left: 4px solid var(--success-color);
+    color: var(--success-color);
+}
+
+.notification.error {
+    border-left: 4px solid var(--danger-color);
+    color: var(--danger-color);
+}
+
+.notification.warning {
+    border-left: 4px solid var(--warning-color);
+    color: var(--warning-color);
+}
+
+.notification.info {
+    border-left: 4px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+/* XP Notification */
+.xp-notification {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background: linear-gradient(135deg, var(--success-color), var(--secondary-color));
+    color: var(--white);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    z-index: 1001;
+    animation: slideInXP 0.5s ease, slideOutXP 0.5s ease 1.5s forwards;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes slideInXP {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOutXP {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
