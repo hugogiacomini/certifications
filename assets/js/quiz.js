@@ -629,7 +629,7 @@ class QuizManager {
                             <i class="fas fa-redo"></i> Take Another Quiz
                         </button>
                         <button class="btn btn-secondary" onclick="document.getElementById('flashcards').scrollIntoView({behavior: 'smooth'}); this.closest('.modal').remove();">
-                            <i class="fas fa-cards-blank"></i> Study Flashcards
+                            <i class="fas fa-clone"></i> Study Flashcards
                         </button>
                     </div>
                 </div>

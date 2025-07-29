@@ -324,7 +324,7 @@ class CertificationLearningPlatform {
                         <i class="fas fa-book-reader"></i> Study
                     </button>
                     <button class="btn btn-secondary" onclick="app.startFlashcardSession('${cert.id}')">
-                        <i class="fas fa-cards-blank"></i> Flashcards
+                        <i class="fas fa-clone"></i> Flashcards
                     </button>
                     <button class="btn btn-outline" onclick="app.startQuickQuiz('${cert.id}')">
                         <i class="fas fa-play"></i> Quiz

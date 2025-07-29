@@ -247,9 +247,9 @@ class ProgressManager {
 
         // Flashcard badges
         if (completedFlashcards >= 500) {
-            badges.push({ type: 'azure', icon: 'fa-cards-blank', description: '500+ flashcards studied!' });
+            badges.push({ type: 'azure', icon: 'fa-clone', description: '500+ flashcards studied!' });
         } else if (completedFlashcards >= 100) {
-            badges.push({ type: 'agile', icon: 'fa-cards-blank', description: '100+ flashcards studied!' });
+            badges.push({ type: 'agile', icon: 'fa-clone', description: '100+ flashcards studied!' });
         }
 
         return badges.slice(0, 6); // Limit to 6 badges

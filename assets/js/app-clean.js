@@ -6,7 +6,7 @@ class CertificationLearningPlatform {
         this.currentUser = {
             streak: 7,
             completedCertifications: [],
-            badges: ['aws', 'databricks', 'streak'],
+            badges: ['aws', 'databricks', 'scrum'],
             studyTime: 0,
             xp: 1250,
             level: 5,
@@ -317,7 +317,7 @@ class CertificationLearningPlatform {
                 </div>
                 <div class="cert-actions">
                     <button class="btn btn-primary" onclick="app.startFlashcardSession('${cert.id}')">
-                        <i class="fas fa-cards-blank"></i> Flashcards
+                        <i class="fas fa-clone"></i> Flashcards
                     </button>
                     <button class="btn btn-outline" onclick="app.startQuickQuiz('${cert.id}')">
                         <i class="fas fa-play"></i> Quiz
